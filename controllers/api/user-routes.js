@@ -1,5 +1,54 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../../models');
+const { User, Post, Comment } = require('../../models/');
+
+router.get('/', (req, res) => {
+    const userData = User.findAll({})
+        .then(userData => res.json(userData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+router.get('/:id', (req, res) => {
+    const userData = User.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: [{
+                    model: Post,
+                    attributes: [
+                        'title',
+                        'body',
+                    ]
+                },
+
+                {
+                    model: Comment,
+                    attributes: ['body'],
+                    include: {
+                        model: Post,
+                        attributes: ['body']
+                    }
+                },
+                {
+                    model: Post,
+                    attributes: ['title'],
+                }
+            ]
+        })
+        .then(userData => {
+            if (!userData) {
+                res.status(404).json({ message: 'No user found with this id' });
+                return;
+            }
+            res.json(userData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
 
 router.post('/', (req, res) => {
 
@@ -8,13 +57,13 @@ router.post('/', (req, res) => {
         password: req.body.password
     })
 
-        .then(dbUserData => {
+    .then(userData => {
             req.session.save(() => {
-                req.session.user_id = dbUserData.id;
-                req.session.username = dbUserData.username;
+                req.session.id = userData.id;
+                req.session.username = userData.username;
                 req.session.loggedIn = true;
 
-                res.json(dbUserData);
+                res.json(userData);
             });
         })
         .catch(err => {
@@ -25,29 +74,29 @@ router.post('/', (req, res) => {
 
 router.post('/login', (req, res) => {
     User.findOne({
-        where: {
-            username: req.body.username
-        }
-    }).then(dbUserData => {
-        if (!dbUserData) {
-            res.status(400).json({ message: 'No user with that username!' });
-            return;
-        }
-        const validPassword = dbUserData.checkPassword(req.body.password);
+            where: {
+                username: req.body.username
+            }
+        }).then(userData => {
+            if (!userData) {
+                res.status(400).json({ message: 'Unrecognized username!' });
+                return;
+            }
+            const validPassword = userData.checkPassword(req.body.password);
 
-        if (!validPassword) {
-            res.status(400).json({ message: 'Incorrect password!' });
-            return;
-        }
-        req.session.save(() => {
+            if (!validPassword) {
+                res.status(400).json({ message: 'Incorrect password!' });
+                return;
+            }
+            req.session.save(() => {
 
-            req.session.user_id = dbUserData.id;
-            req.session.username = dbUserData.username;
-            req.session.loggedIn = true;
+                req.session.id = userData.id;
+                req.session.username = userData.username;
+                req.session.loggedIn = true;
 
-            res.json({ user: dbUserData, message: 'You are now logged in!' });
-        });
-    })
+                res.json({ user: userData, message: 'You are now logged in!' });
+            });
+        })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
@@ -57,10 +106,10 @@ router.post('/login', (req, res) => {
 router.post('/logout', (req, res) => {
     if (req.session.loggedIn) {
         req.session.destroy(() => {
-            res.status(200).json('Success!');
+            res.status(204).end();
         });
     } else {
-        res.status(500).json(err);
+        res.status(404).end();
     }
 });
 

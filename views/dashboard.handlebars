@@ -1,10 +1,14 @@
+{{#if posts.length}}
 <section>
-    <button id="logout-link" class="btn-no-style">Logout</button>
+  <h2>Your Posts</h2>
+    {{#each posts as |post|}}
+      {{> post-title}}
+    {{/each}}
 
-    <h1>Your Posts</h1>
-
-    <button type="submit" class="btn-no-style"><a href="/dashboard/new">Make New Post</a></button>
 </section>
+{{/if}}
 
-<script src="/js/logout.js"></script>
+<button type="button"><a href="/dashboard/new">New Post</a></button>
+
+<script src="/js/new.js"></script>
 
