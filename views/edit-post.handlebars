@@ -1,0 +1,26 @@
+<div>
+    <h1>Add Post</h1>
+    <form>
+
+        <div class="form-outline mb-4">
+            <input type="text" value="{{post.title}}" class="form-control form-control-lg" name="post-title" />
+            <label class="form-label" for="post-title">Title</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="text" value="{{post.body}}" class="form-control form-control-lg" name="post-body" />
+            <label class="form-label" for="post-body">Content</label>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="submit" id="edit-post-form" class="btn btn-primary btn-lg btn-block">Edit</button>
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <button type="button" id="delete-btn" class="btn btn-primary btn-lg btn-block">Delete</button>
+        </div>
+
+    </form>
+</div>
+
+<script src="/js/edit.js"></script>
