@@ -8,5 +8,24 @@
     "express-session": "^1.17.2",
     "mysql2": "^2.3.3",
     "sequelize": "^6.15.1"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "blog-dashboard",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JunoNguyen/Blog-Dashboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JunoNguyen/Blog-Dashboard/issues"
+  },
+  "homepage": "https://github.com/JunoNguyen/Blog-Dashboard#readme",
+  "description": ""
 }
