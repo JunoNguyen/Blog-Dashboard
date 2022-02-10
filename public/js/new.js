@@ -1,10 +1,12 @@
+// const { response } = require("express");
+
 const newFormHandler = async function(event) {
   event.preventDefault();
 
   const title = document.querySelector('input[name="post-title"]').value;
   const body = document.querySelector('textarea[name="post-body"]').value;
 
-  await fetch(`/api/post`, {
+  const response = await fetch(`/api/post/new`, {
     method: 'POST',
     body: JSON.stringify({
       title,
@@ -13,9 +15,13 @@ const newFormHandler = async function(event) {
     headers: { 'Content-Type': 'application/json' },
   });
 
-  document.location.replace('/dashboard');
+  if (response.ok) {
+    document.location.replace('/');
+  } else {
+    alert('Failed to create post');
+  }
 };
 
 document
   .querySelector('#new-post-form')
-  .addEventListener('submit', newFormHandler);
+  .addEventListener('click', newFormHandler);

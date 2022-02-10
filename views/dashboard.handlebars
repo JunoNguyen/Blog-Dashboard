@@ -1,4 +1,17 @@
 <section>
-    <button id="logout" class="btn btn-primary btn-lg btn-block">Logout</button>
+    <button id="logout-link" class="btn btn-primary btn-lg btn-block">Logout</button>
+    <div class="form-check d-flex justify-content-start mb-4">
+        <a href="/new" class="btn btn-primary btn-lg btn-block">New Post</a>
+    </div>
+    {{#if isLoggedIn}}
+    <section class="flex-row justify-center">
+    {{#each posts as |post|}}
+    {{> all-posts}}
+    {{/each}}
+  </section>
+  {{else}}
+  <h2 class="text-uppercase mb-5 text-center "><a href="/login">Please Log in</a></h2>
+  {{/if}}
 </section>
+
 <script src="/js/logout.js"></script>

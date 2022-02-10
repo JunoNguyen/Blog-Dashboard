@@ -1,0 +1,46 @@
+{{#if isLoggedIn}}
+<section>
+    <div class="card" style="border-radius: 15px;">
+        <div class="card-body p-5">
+            <h2 class="text-uppercase text-center mb-5">POST ID:{{post.id}}</h2>
+            <h2 class="text-uppercase text-center mb-5">{{post.title}}</h2>
+            <div class="form-outline mb-4">
+                {{post.body}}
+            </div>
+        </div>
+    </div>
+    </div>
+    <section>
+        <div class="card" style="border-radius: 15px; margin: 5px;">
+            <div class="card-body p-5">
+                <form class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <div class="form-outline mb-4">
+                        <input type="text" name="post-id" class="form-control form-control-lg" />
+                        <label class="form-label text-center" for="username-input-signup">Post ID</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <textarea type="text" name="comment-body" class="form-control form-control-lg"></textarea>
+                        <label class="form-label text-center" for="comment-body">Body</label>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="button" id="new-comment-form"
+                            class="btn btn-primary btn-lg btn-block">Comment</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+    <h2 class="text-uppercase mb-5 text-center ">Comments Below </h2>
+    {{#each comments as |comment|}}
+    {{> comments}}
+    {{/each}}
+    </div>
+    <h2 class="text-uppercase mb-5 text-center "><a href="/">Homepage</a></h2>
+</section>
+{{else}}
+<a href="/login">Please log in to view post data.</a>
+{{/if}}
+
+<script src="/js/comment.js"></script>
